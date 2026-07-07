@@ -1,98 +1,236 @@
 # Multilingual Agnostic Chatbot
 
-## Application Overview
-
-This application is a **multilingual document-based question answering system** built using a **Retrieval-Augmented Generation (RAG)** architecture.  
-It allows users to ask questions in **any language** and get accurate answers from a **collection of PDF documents** available on the server.
-
-The system runs on a **local network**, enabling multiple users to access the application through a web interface while a single RAG engine continuously processes queries in the background.
+A Retrieval-Augmented Generation (RAG) based multilingual document question-answering system that enables users to ask questions in **any language** and receive accurate answers from a collection of PDF documents. The application uses semantic search, automatic translation, and Google Gemini to generate context-aware responses.
 
 ---
 
-##  Problem Statement & Solution
+## Overview
 
-###  Problem
+The Multilingual Agnostic Chatbot is designed to simplify information retrieval from multiple PDF documents. Instead of manually searching through documents, users can ask natural language questions in their preferred language and receive relevant answers instantly.
 
-- Information is often stored across **multiple PDF documents**
-- Searching manually through PDFs is **time-consuming and inefficient**
-- Most document QA systems:
-  - Work only in **English**
-  - Rebuild models for every query
-  - Are slow and resource-heavy
+The application runs over a **local network**, allowing multiple users to access it through a web interface while a single RAG engine continuously processes queries in the background.
 
 ---
 
-###  Solution
+## Features
 
-This application solves the problem by:
+- Ask questions in **multiple languages**
+- Retrieve information from multiple PDF documents
+- Semantic search using FAISS vector database
+- AI-generated answers using Google Gemini
+- Automatic translation of multilingual queries
+- Fast responses with preloaded document embeddings
+- Simple and responsive web interface
+- Multi-user access over a local network
 
-- Loading **all PDFs once** at startup
-- Converting documents into **vector embeddings**
-- Using **semantic search** instead of keyword matching
-- Translating **multilingual queries** into English automatically
-- Generating **context-aware answers** using an LLM
-- Returning responses quickly without restarting the RAG engine
+---
+
+## Problem Statement
+
+Finding information across multiple PDF documents is often slow and inefficient.
+
+Traditional document QA systems typically:
+
+- Support only English
+- Perform keyword-based searches
+- Reload documents for every query
+- Consume significant computational resources
+
+---
+
+## Solution
+
+This application addresses these challenges by:
+
+- Loading all PDF documents once during startup
+- Converting documents into vector embeddings
+- Performing semantic similarity search using FAISS
+- Automatically translating multilingual queries into English
+- Generating context-aware responses using Google Gemini
+- Keeping the RAG engine running continuously for faster response times
 
 As a result, users can:
-- Ask questions in their **native language**
-- Get precise answers from large document sets
-- Access the system from **any device on the same network**
+
+- Ask questions in their native language
+- Retrieve accurate information from large document collections
+- Access the system from any device connected to the same local network
 
 ---
 
-## Technologies Used
+## Tech Stack
 
-### 🔹 Frontend
+### Frontend
+
 - HTML
 - CSS
 - JavaScript
 
-### 🔹 Backend
+### Backend
+
 - Node.js
 - Express.js
 - CORS
 
-### 🔹 RAG Engine
-- Python
-- FAISS (Vector Similarity Search)
-- Sentence Transformers (Embeddings)
-- LangChain Text Splitters
-- PyMuPDF (PDF Parsing)
+### RAG Engine
 
-### 🔹 AI & NLP
-- Google Gemini (LLM)
-- Multilingual Translation (`@vitalets/google-translate-api`)
+- Python
+- FAISS
+- Sentence Transformers
+- LangChain Text Splitters
+- PyMuPDF
+
+### AI & NLP
+
+- Google Gemini
+- @vitalets/google-translate-api
 
 ---
 
-##  Setup Instructions
+## 📂 Project Structure
 
-### 1.1️Clone the Repository
 ```
-git clone https://github.com/shambhuz28/techsprint.git
-cd techsprint
+.
+├── pdfs/                  # PDF documents
+├── frontend/              # HTML, CSS, JavaScript
+├── backend/
+│   ├── server.js
+│   └── routes/
+├── rag/
+│   ├── app.py
+│   ├── embeddings.py
+│   ├── vector_store.py
+│   └── utils.py
+├── requirements.txt
+├── package.json
+└── README.md
 ```
-### 2. Python RAG Setup
+
+---
+
+## Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yashmmulay/notify-RAG.git
+cd notify-RAG
+```
+
+---
+
+### 2. Create a Python Virtual Environment
+
 ```bash
 python3 -m venv env
+```
+
+Activate the environment:
+
+**macOS/Linux**
+
+```bash
 source env/bin/activate
 ```
-Install dependencies:
+
+**Windows**
+
+```bash
+env\Scripts\activate
+```
+
+---
+
+### 3. Install Python Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
-### 3. Node.js Setup
+
+---
+
+### 4. Install Node.js Dependencies
+
 ```bash
 npm install
 ```
 
-Start the application:
+---
+
+### 5. Configure Environment Variables
+
+Create a `.env` file and add your Google Gemini API key:
+
+```env
+GOOGLE_API_KEY=YOUR_API_KEY
+```
+
+---
+
+### 6. Start the Backend
+
 ```bash
 node server.js
 ```
 
-Access the Application
+---
+
+### 7. Start the RAG Engine
+
+Run the Python application responsible for document indexing and retrieval (replace with your actual entry file if different):
+
+```bash
+python app.py
+```
+
+---
+
+## Access the Application
 
 On the same machine:
 
+```
 http://localhost:4000
+```
+
+From another device on the same network:
+
+```
+http://YOUR_LOCAL_IP:4000
+```
+
+Example:
+
+```
+http://192.168.1.10:4000
+```
+---
+
+## Future Enhancements
+
+- Document upload through the web interface
+- Chat history
+- Voice input support
+- User authentication
+- Streaming AI responses
+- Docker deployment
+- Cloud deployment
+- Support for additional LLMs
+
+---
+
+## Learning Outcomes
+
+This project demonstrates practical implementation of:
+
+- Retrieval-Augmented Generation (RAG)
+- Vector Databases (FAISS)
+- Semantic Search
+- Google Gemini API
+- Sentence Transformers
+- LangChain
+- PDF Parsing
+- Multilingual Translation
+- Node.js & Express Integration
+- Full-Stack AI Application Development
+
+---
