@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Campus Language-Agnostic Chatbot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background:
+                linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+                url("WCE_Main_Building.jpg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 800px;
+            height: 85vh;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: rgba(248,249,250,0.85);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .chat-header h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #202124;
+        }
+
+        .chat-header p {
+            font-size: 14px;
+            color: #444;
+            margin-top: 4px;
+        }
+
+        .language-section {
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.85);
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .language-section label {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .language-section select {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .chat-output {
+            flex-grow: 1;
+            padding: 20px;
+            background: rgba(250,250,250,0.8);
+            overflow-y: auto;
+        }
+
+        .message {
+            max-width: 75%;
+            margin-bottom: 14px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .user-message {
+            background: #1a73e8;
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message {
+            background: #e8f0fe;
+            color: #202124;
+            margin-right: auto;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            padding: 16px;
+            background: rgba(255,255,255,0.9);
+            border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            padding: 12px 20px;
+            border-radius: 10px;
+            border: none;
+            background: #1a73e8;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background: #1558c0;
+        }
+
+        .chat-output::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-output::-webkit-scrollbar-thumb {
+            background: #aaa;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+
+    <div class="chat-header">
+        <h2>Campus Language-Agnostic Chatbot</h2>
+        <p>Ask campus-related questions in your preferred language</p>
+    </div>
+
+    <div class="language-section">
+        <label>Select Language</label>
+        <select>
+            <option>English</option>
+            <option>Hindi</option>
+            <option>Marathi</option>
+            <option>Tamil</option>
+            <option>Telugu</option>
+        </select>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="chat-output" id="out">
+        <div class="message bot-message">
+            👋 Hello! Ask me anything about fees, exams, scholarships, or campus rules.
+        </div>
+    </div>
+
+    <!-- INPUT -->
+    <div class="chat-input">
+        <input type="text" id="q" placeholder="Type your question here..." />
+        <button onclick="ask()">Send</button>
+    </div>
+
+</div>
+
+<script>
+async function ask() {
+    const q = document.getElementById("q").value.trim();
+    if (!q) return;
+
+    const out = document.getElementById("out");
+
+    // Show user message
+    out.innerHTML += `<div class="message user-message">${q}</div>`;
+    document.getElementById("q").value = "";
+
+    const res = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: q })
+    });
+
+    const data = await res.json();
+
+    // Show bot response
+    out.innerHTML += `
+        <div class="message bot-message">
+            <strong>Answer:</strong><br>${data.answer}<br><br>
+           
+        </div>
+    `;
+
+    // Auto-scroll to bottom
+    out.scrollTop = out.scrollHeight;
+}
+</script>
+
+</body>
+</html>

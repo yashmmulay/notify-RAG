@@ -1,0 +1,17 @@
+# Core numerical & vector search
+numpy
+faiss-cpu
+
+# PDF processing
+PyMuPDF
+
+# Embeddings
+sentence-transformers
+torch
+transformers
+
+# Text splitting (LangChain utility)
+langchain-text-splitters
+
+# Google Gemini API
+google-genai
